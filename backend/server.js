@@ -9,8 +9,8 @@ import index from './routers';
 const app = express();
 
 // Connect to mongoose
-mongoose.Promise = global.Promise
-mongoose.connect(secrets.connection, {useMongoClient: true})
+mongoose.Promise = global.Promise;
+mongoose.connect(secrets.connection, {useMongoClient: true});
 
 // Use the body-parser package in our application
 app.use(bodyParser.urlencoded({
@@ -19,11 +19,12 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // Register the router to /api
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 app.use('/api', index);
 
 // Launch the server on port 3000
-const server = app.listen(3000, () => {
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
   const { address, port } = server.address();
   console.log(`Listening at http://${address}:${port}`);
 });
