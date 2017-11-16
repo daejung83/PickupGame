@@ -1,6 +1,6 @@
 import express, {Router} from 'express';
 import mongoose from 'mongoose';
-import bodyParser from 'body-parser'; 
+import bodyParser from 'body-parser';
 import secrets from './secrets';
 import morgan from 'morgan';
 import index from './routers';
@@ -25,6 +25,10 @@ app.use('/api', index);
 // Launch the server on port 3000
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  const { address, port } = server.address();
-  console.log(`Listening at http://${address}:${port}`);
+    const {address, port} = server.address();
+    console.log(`Listening at http://${address}:${port}`);
 });
+
+// TODO: cookie-parser?
+// TODO: Configure passport.js session
+// TODO: Configure passport.js local strategy
