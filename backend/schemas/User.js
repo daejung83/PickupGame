@@ -1,7 +1,7 @@
 import mongoose, {Schema} from 'mongoose';
 import bcrypt from 'bcrypt'
 
-const saltRound = 8;
+const saltRound = 12;
 
 const userSchema = new Schema({
     email: {
@@ -9,26 +9,34 @@ const userSchema = new Schema({
         unique: true,
     },
     name: String,
-    hash: String
+    hash: {
+        type: String,
+        select: false
+    }
 });
 
-const User = mongoose.model('User', userSchema);
-
 // Validate the user and if valid, return the user's id in the database as a string
-userSchema.statics.validate = async (email, password) => {
-    const user = await this.findOne({email: email.toLowerCase()}, 'hash').exec();
-    if (!user) return null;
-    else if (bcrypt.compare(password, user.hash)) return null;
-    else return user.id;
+userSchema.statics.validate = async function(email, password) {
+    const user = await this.findOne({email: email.toLowerCase()}, '+hash').exec();
+    if (user && await bcrypt.compare(password, user.hash)) return user;
+    else return null;
 };
 
 // Register a user
-userSchema.statics.register = async (email, password) => {
-    const user = new User({
+userSchema.statics.register = async function(email, password) {
+    const existing = await this.findOne({email: email.toLowerCase()});
+    if (existing) throw {
+        statusCode: 403,
+        message: "This email already exists"
+    };
+    const user = new this({
         email: email.toLowerCase(),
         hash: await bcrypt.hash(password, saltRound)
     });
-    return user.save();
+    await user.save();
+    return user;
 };
+
+const User = mongoose.model('User', userSchema);
 
 export default User;
