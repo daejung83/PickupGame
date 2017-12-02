@@ -14,3 +14,5 @@ const groupSchema = new Schema({
         required: true,
     }
 })
+
+export default Group;
