@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import Login from '../screens/Login';
@@ -71,12 +71,13 @@ export const LoginStack = StackNavigator({
 })
 
 class Route extends Component {
+
     render() {
-        return (
-            <View style={styles.container}>
-                <LoginStack />
-            </View>
-        );
+            return (
+                <View style={styles.container}>
+                    <LoginStack />
+                </View>
+            );
     }
 }
 
