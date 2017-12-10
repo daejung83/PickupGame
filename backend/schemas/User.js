@@ -68,7 +68,7 @@ userSchema.methods.createGroup = async function (name, sport, lon, lat, maxSize,
         longitude: lon,
         latitude: lat,
         maxSize: maxSize,
-        host: _id,
+        host: this._id,
         startTime: start,
         endTime: end
     });
