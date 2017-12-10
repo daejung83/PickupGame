@@ -18,7 +18,7 @@ const userSchema = new Schema({
     groups: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: Group,
+            ref: 'Group',
         }],
     },
     rating: {
