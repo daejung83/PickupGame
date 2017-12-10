@@ -4,7 +4,8 @@ import User from "../../schemas/User";
 
 // api/groups
 export default function(route) {
-    // GET get all groups
+    // GET /api/groups
+    // get all groups
     // query params: (see https://docs.mongodb.com/manual/reference/method/db.collection.find/#db.collection.find)
     // where: condition for filtering, default: all objects
     // select: include or exclude a set of fields
@@ -23,7 +24,8 @@ export default function(route) {
         res.status(200).json(groups);
     });
 
-    // POST create a new group
+    // POST /api/groups
+    // create a new group
     // query params:
     // name, sport, lon, lat, maxSize, start, end
     route.post(isLoggedIn, async (req, res) => {
