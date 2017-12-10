@@ -9,11 +9,16 @@ const userSchema = new Schema({
     email: {
         type: String,
         unique: true,
+        required: true,
     },
-    name: String,
+    name: {
+        type: String,
+        required: true
+    },
     hash: {
         type: String,
-        select: false
+        select: false,
+        required: true
     },
     groups: {
         type: [{
@@ -31,7 +36,8 @@ const userSchema = new Schema({
     },
     preferredSport: {
         type: String,
-        enum: sportList
+        enum: sportList,
+        required: true
     },
     updated: {
         type: Date,
@@ -47,7 +53,7 @@ userSchema.statics.validate = async function(email, password) {
 };
 
 // Register a user
-userSchema.statics.register = async function(email, password) {
+userSchema.statics.register = async function(email, password, name, preferredSport) {
     const existing = await this.findOne({email: email.toLowerCase()});
     if (existing) throw {
         statusCode: 403,
@@ -55,7 +61,9 @@ userSchema.statics.register = async function(email, password) {
     };
     const user = new this({
         email: email.toLowerCase(),
-        hash: await bcrypt.hash(password, saltRound)
+        hash: await bcrypt.hash(password, saltRound),
+        name: name,
+        preferredSport: preferredSport
     });
     await user.save();
     return user;

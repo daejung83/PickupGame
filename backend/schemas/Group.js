@@ -46,11 +46,11 @@ const groupSchema = new Schema({
     },
     startTime: {
         type: Date,
-        default: Date.now()
+        required: true
     },
     endTime: {
         type: Date,
-        default: Date.parse("2 hours")
+        required: true
     },
     updated: {
         type: Date,
