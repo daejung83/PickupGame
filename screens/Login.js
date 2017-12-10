@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput, StyleSheet, Keyboard } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Button, Icon, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import Geolocation from 'geolocation';
+import axios from 'axios';
+import config from '../config/config';
 
-const color1 = 'grey';
-const color2 = '#54DEFD';
+const color1 = '#254E70';
+const color2 = '#AEF3E7';
 
 class Login extends Component {
 
@@ -15,15 +17,39 @@ class Login extends Component {
         this.state = {
             isLoading: true,
             coords: {},
+            email: '',
+            password: '',
+            error: '',
         }
     }
 
     handleLogin = () => {
-        this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.state.coords});
+        axios.post(config.base_url + 'login', {   
+            email: this.state.email,
+            password: this.state.password,
+            
+        }, {
+            validateStatus: function(status){
+                return status < 500;
+            }
+        })
+            .then((req) => {
+                console.log(req.data);
+                if(req.status === 200){
+                    this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.state.coords});            
+                } else {
+                    console.log('status: ' + req.status);
+                    this.setState({error: 'Incorrect Login'});
+                }
+            })
+            .catch((e) => {
+                console.error(e);
+            })
+        
     }
 
     handleSignup = () => {
-        this.props.navigation.navigate('Signup');
+        this.props.navigation.navigate('Signup',{cord: this.state.coords});
     }
 
     handleFacebook = () => {
@@ -68,36 +94,35 @@ class Login extends Component {
                                 iconStyle={{margin: 20}}
                             />
                         </View>
-                        <TextInput
-                            placeholder={' User Id'}
+                        <FormLabel>Email</FormLabel>
+                        <FormInput 
+                            onChangeText={(email) => this.setState({email})} 
                             autoCapitalize={'none'}
-                            style={styles.input}
-                            onSubmitEditing={Keyboard.dismiss}
+                            placeholder={' example@example.com'}
                         />
-                        <TextInput
-                            placeholder={' Password'}
+                        <FormLabel style={{color: color1}}>password</FormLabel>
+                        <FormInput 
+                            secureTextEntry={true} 
+                            onChangeText={(password) => this.setState({password})} 
                             autoCapitalize={'none'}
-                            style={styles.input}
-                            secureTextEntry={true}
-                            onSubmitEditing={Keyboard.dismiss}
+                            placeholder={' password'}
                         />
+                        <FormValidationMessage>{this.state.error}</FormValidationMessage>
                         <Button
                             title={'Login'}
                             onPress={this.handleLogin}
                             buttonStyle={styles.button}
-                            icon={{name: 'sign-in', type: 'font-awesome'}}
+                            icon={{name: 'sign-in', type: 'font-awesome', color: color2}}
+                            backgroundColor={color1}
+                            color={color2}
                         />
                         <Button
                             title={'Sign Up'}
                             onPress={this.handleSignup}
                             buttonStyle={styles.button}
-                            icon={{name: 'user-plus', type: 'font-awesome'}}
-                        />
-                        <Button
-                            title={'Facebook Login'}
-                            onPress={this.handleFacebook}
-                            buttonStyle={styles.button}
-                            icon={{name: 'facebook-square', type: 'font-awesome'}}
+                            icon={{name: 'user-plus', type: 'font-awesome', color: color2}}
+                            backgroundColor={color1}
+                            color={color2}
                         />
                     </View>
                 </View>

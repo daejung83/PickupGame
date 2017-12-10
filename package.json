@@ -19,6 +19,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "events": "^1.1.1",
     "expo": "^22.0.2",
     "geolocation": "^0.2.0",
