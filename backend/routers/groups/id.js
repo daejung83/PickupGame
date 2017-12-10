@@ -33,13 +33,26 @@ export default function(route) {
 
     // PUT /api/group/:id
     // update a group
-    // require body, update
-    // route.put(isLoggedIn, async (req, res) => {
-    //     const group = await Group.findById(req.params.id).exec();
-    //     if (group.host !== req.user._id) return res.status(401).json({message: "Illegal Access"});
-    //     else {
-    //         if (!req.body) res.status(400).json({message: "Empty body"});
-    //
-    //     }
-    // });
+    // require body, if an array body.users is present, add the ids in the array to the group
+    // acceptable params in body:
+    // body.name, body.sport, body.longitude, body.latitude, body.maxSize, body.startTime, body.endTime, body.users
+    route.put(isLoggedIn, async (req, res) => {
+        const group = await Group.findById(req.params.id).exec();
+        if (group.host !== req.user._id) return res.status(401).json({message: "Illegal Access"});
+        else {
+            if (!req.body) res.status(400).json({message: "Empty body"});
+            if (req.body.name) group.name = req.body.name;
+            if (req.body.sport) group.sport = req.body.sport;
+            if (req.body.longitude) group.longitude = req.body.longitude;
+            if (req.body.latitude) group.latitude = req.body.latitude;
+            if (req.body.maxSize) group.maxSize = req.body.maxSize;
+            if (req.body.startTime) group.startTime = req.body.startTime;
+            if (req.body.endTime) group.endTime = req.body.endTime;
+
+            if (req.body.users) {
+                group.push(...req.body.users);
+                User.update({ _id: { $in: req.body.users } }, { $push: { groups: group._id } })
+            }
+        }
+    });
 }
