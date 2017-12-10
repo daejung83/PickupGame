@@ -14,12 +14,12 @@ const groupSchema = new Schema({
     users: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: User,
+            ref: 'User',
         }],
     },
     host: {
         type: Schema.Types.ObjectId,
-        ref: User,
+        ref: 'User',
         required: true,
     },
     latitude: {
@@ -58,6 +58,14 @@ const groupSchema = new Schema({
     }
 
 }, { timestamps: true });
+
+// Custom Validations
+
+groupSchema.pre('validate', (next) => {
+    if (this.startTime >= this.endTime) next(new Error("The end time must be greater than the start time!"));
+    else if (this.currentSize > this.maxSize) next(new Error("The max size must be greater than or equal to the current size!"));
+    else next();
+});
 
 const Group = mongoose.model('Group', groupSchema);
 
