@@ -1,7 +1,6 @@
 import Group from "../../schemas/Group";
 import isLoggedIn from "../../utils/isLoggedIn";
 import User from "../../schemas/User";
-import Date from '../../utils/date'
 
 // api/groups
 export default function(route) {
