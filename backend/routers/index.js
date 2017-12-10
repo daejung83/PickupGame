@@ -1,4 +1,4 @@
-import users from './users'
+import groups from './groups'
 import home from './home'
 import login from './login'
 import logout from './logout'
@@ -8,7 +8,7 @@ import user from './user'
 
 
 export default function (router, passport) {
-    router.use('/users', users(new Router(), passport));
+    router.use('/groups', groups(new Router(), passport));
 
     home(router.route('/'));
     login(router.route('/login'), passport);
