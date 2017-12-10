@@ -1,21 +1,23 @@
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import User, {sportList} from "./User";
 
 const groupSchema = new Schema({
     name: {
         type: String,
         required: true,
     },
-    sports: {
+    sport: {
         type: String,
+        enum: sportList,
         required: true,
     },
-    Users: {
+    users: {
         type: [{
             type: Schema.Types.ObjectId,
             ref: User,
         }],
     },
-    Host: {
+    host: {
         type: Schema.Types.ObjectId,
         ref: User,
         required: true,
@@ -28,11 +30,35 @@ const groupSchema = new Schema({
         type: Number,
         required: true,
     },
+    maxSize: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: Number.isInteger
+        }
+    },
+    currentSize: {
+        type: Number,
+        default: 1,
+        validate: {
+            validator: Number.isInteger
+        }
+    },
+    startTime: {
+        type: Date,
+        default: Date.now()
+    },
+    endTime: {
+        type: Date,
+        default: Date.parse("2 hours")
+    },
     updated: {
         type: Date,
-        default: Date.now,
+        default: Date.now(),
     }
 
-}, { timestamps: true })
+}, { timestamps: true });
+
+const Group = mongoose.model('Group', groupSchema);
 
 export default Group;

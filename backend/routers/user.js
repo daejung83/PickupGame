@@ -1,4 +1,4 @@
-import isLoggedIn from "./isLoggedIn";
+import isLoggedIn from "../utils/isLoggedIn";
 
 export default function (route) {
     route.get(isLoggedIn, (req, res) => {

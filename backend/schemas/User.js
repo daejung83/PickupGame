@@ -1,7 +1,9 @@
 import mongoose, {Schema} from 'mongoose';
 import bcrypt from 'bcrypt'
+import Group from './Group'
 
 const saltRound = 12;
+export const sportList = ["Basketball", "Football", "Soccer", "Tennis", "Badminton", "Volleyball"];
 
 const userSchema = new Schema({
     email: {
@@ -25,7 +27,11 @@ const userSchema = new Schema({
     },
     numberRated: {
         type: Number,
-        default: 1,
+        default: 0,
+    },
+    preferredSport: {
+        type: String,
+        enum: sportList
     },
     updated: {
         type: Date,
@@ -53,6 +59,21 @@ userSchema.statics.register = async function(email, password) {
     });
     await user.save();
     return user;
+};
+
+userSchema.methods.createGroup = async function (name, sport, lon, lat, maxSize, start, end) {
+    const group = new Group({
+        name: name,
+        sport: sport,
+        longitude: lon,
+        latitude: lat,
+        maxSize: maxSize,
+        host: _id,
+        startTime: start,
+        endTime: end
+    });
+    await group.save();
+    return group;
 };
 
 const User = mongoose.model('User', userSchema);
