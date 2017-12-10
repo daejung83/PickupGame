@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Keyboard } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import Geolocation from 'geolocation';
 
 const color1 = 'grey';
-const color2 = '#f9ede3';
+const color2 = '#54DEFD';
 
 class Login extends Component {
 
@@ -72,11 +72,14 @@ class Login extends Component {
                             placeholder={' User Id'}
                             autoCapitalize={'none'}
                             style={styles.input}
+                            onSubmitEditing={Keyboard.dismiss}
                         />
                         <TextInput
                             placeholder={' Password'}
                             autoCapitalize={'none'}
                             style={styles.input}
+                            secureTextEntry={true}
+                            onSubmitEditing={Keyboard.dismiss}
                         />
                         <Button
                             title={'Login'}
