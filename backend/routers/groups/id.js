@@ -1,6 +1,7 @@
 import Group from "../../schemas/Group";
 import isLoggedIn from "../../utils/isLoggedIn";
 import User from "../../schemas/User";
+import mongoose, { Schema } from 'mongoose';
 
 export default function(route) {
 
@@ -65,7 +66,7 @@ export default function(route) {
         const group = await Group.findById(req.params.id).exec();
         if (req.user._id === group.host) return res.status(400).json({message: "Bad Request"});
         let msg;
-        if (!group.users.includes(req.user._id)) {
+        if (!group.users.some(id => id.equals(req.user._id))) {
             await User.update({ _id: req.user._id }, { $push: { groups: group._id } });
             await group.update({$push: {users: req.user._id}});
             msg = "joined";
@@ -74,7 +75,7 @@ export default function(route) {
             await group.update({$pull: {users: req.user._id}});
             msg = "left";
         }
-        req.logIn(req.user, (err) => {})
+        req.logIn(req.user, (err) => {});
         return res.status(201).json({message: msg});
     });
 }

@@ -1,4 +1,5 @@
 import isLoggedIn from "../utils/isLoggedIn";
+import User from "../schemas/User";
 
 export default function (route) {
 
