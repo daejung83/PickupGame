@@ -35,9 +35,9 @@ export default function (route) {
         const user = await User.findById(req.query.id).exec();
         if (user._id.equals(req.user._id)) return res.status(401).json({message: "Can't rate yourself."});
         if(req.body.rating){
-            if(req.body.rating < 1 || req.body.rating > 5){
-                return res.status(400).json({message: "Invalid rating."})
-            }
+            // if(req.body.rating < 1 || req.body.rating > 5){
+            //     return res.status(400).json({message: "Invalid rating."})
+            // }
             newNumRate = user.numberRated + 1;
             user.rating = ((user.rating * user.numberRated) + req.body.rating)/newNumRate;
             user.numberRated = newNumRate;
