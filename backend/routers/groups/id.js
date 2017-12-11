@@ -31,7 +31,7 @@ export default function(route) {
             return res.status(200).json({message: "Users removed", data: group});
         }
         else {
-            await User.update({ _id: {$in: group.users} }, { $pull: { groups: group._id } }).exec();
+            await User.update({ _id: {$in: group.users.concat(group.host)} }, { $pull: { groups: group._id } }).exec();
             await group.remove();
             if (group.users.some(id => req.user._id.equals(id))) {
                 req.logIn(req.user, (err) => {})
