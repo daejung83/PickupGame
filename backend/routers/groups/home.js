@@ -39,7 +39,12 @@ export default function(route) {
         const start = moment(req.body.start).toDate();
         const end = moment(req.body.end).toDate();
 
-        const group = await req.user.createGroup(name, sport, lon, lat, maxSize, start, end);
+        let group;
+        try {
+            group = await req.user.createGroup(name, sport, lon, lat, maxSize, start, end);
+        } catch(err) {
+            return res.status(400).json(err)
+        }
         console.log(`${group._id}`);
         await User.findByIdAndUpdate(req.user._id, {$push: {groups: group._id}});
         req.logIn(req.user, (err) => {});
