@@ -5,10 +5,12 @@ import logout from './logout'
 import register from './register'
 import {Router} from 'express'
 import user from './user'
+import users from './users'
 
 
 export default function (router, passport) {
     router.use('/groups', groups(new Router(), passport));
+    router.use('/users', users(new Router(), passport));
 
     home(router.route('/'));
     login(router.route('/login'), passport);
