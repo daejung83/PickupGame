@@ -28,14 +28,15 @@ export default function(route) {
     // query params:
     // name, sport, lon, lat, maxSize, start, end
     route.post(isLoggedIn, async (req, res) => {
-        const name = req.query.name;
-        const sport = req.query.sport;
-        const lon = parseFloat(req.query.lon);
-        const lat = parseFloat(req.query.lat);
-        const maxSize = parseInt(req.query.maxSize);
-        const start = moment(req.query.start).toDate();
-        const end = moment(req.query.end).toDate();
-        console.log(`${start} ${end}`);
+        if (!req.body) return res.status(400).json({message: "Empty body"});
+
+        const name = req.body.name;
+        const sport = req.body.sport;
+        const lon = req.body.lon;
+        const lat = req.body.lat;
+        const maxSize = req.body.maxSize;
+        const start = moment(req.body.start).toDate();
+        const end = moment(req.body.end).toDate();
 
         const group = await req.user.createGroup(name, sport, lon, lat, maxSize, start, end);
         res.status(201).json(group)
