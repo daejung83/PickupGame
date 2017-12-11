@@ -11,7 +11,7 @@ export default function (route) {
 
     // PUT /api/user
     route.put(isLoggedIn, async (req, res) => {
-        const user = await User.findById(req.user.id).exec();
+        const user = await User.findById(req.user._id).exec();
 
         if(req.body.name) user.name = req.body.name;
         if(req.body.email) user.email = req.body.email;
@@ -26,9 +26,18 @@ export default function (route) {
     });
 
     // POST /api/user
+    // We used req.body but not sure if req.query would be needed.
     route.post(isLoggedIn, async (req, res) => {
-        const user = await User.findById(req.params.id).exec();
+        const user = await User.findById(req.query.id).exec();
         if (user._id === req.user._id) return res.status(401).json({message: "Can't rate yourself."});
+        if(req.body.rating){
+            if(req.body.rating < 1 || req.body.rating > 5){
+                return res.status(400).json({message: "Invalid rating."})
+            }
+            newNumRate = user.numberRated + 1;
+            user.rating = ((user.rating * user.numberRated) + req.body.rating)/newNumRate;
+            user.numberRated = newNumRate;
 
+        }
     });
 }
