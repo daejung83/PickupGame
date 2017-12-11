@@ -1,11 +1,11 @@
 
 import isLoggedIn from "../../utils/isLoggedIn";
-import User from "../../schemas/User";
+import User, {profileInfo} from "../../schemas/User";
 
 export default function (route) {
     route.get(isLoggedIn, async (req, res) => {
         const where = {};
-        const select = "name rating numberRated preferredSport";
+        const select = profileInfo;
         const options = {};
         if (req.query.skip) options.skip = parseInt(req.query.skip);
         if (req.query.limit) options.limit = parseInt(req.query.limit);

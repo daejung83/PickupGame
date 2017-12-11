@@ -4,6 +4,7 @@ import Group from './Group'
 
 const saltRound = 12;
 export const sportList = ["Basketball", "Football", "Soccer", "Tennis", "Badminton", "Volleyball"];
+export const profileInfo = "name rating numberRated preferredSport groups";
 
 const userSchema = new Schema({
     email: {
