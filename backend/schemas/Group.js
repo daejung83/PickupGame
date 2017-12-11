@@ -61,7 +61,7 @@ const groupSchema = new Schema({
 
 // Custom Validations
 
-groupSchema.pre('validate', (next) => {
+groupSchema.pre('validate', function(next) {
     if (this.startTime >= this.endTime) next(new Error("The end time must be greater than the start time!"));
     else if (this.currentSize > this.maxSize) next(new Error("The max size must be greater than or equal to the current size!"));
     else next();
