@@ -66,6 +66,7 @@ class MapPage extends Component {
     }
 
     updateData = () => {
+        console.log('UPDATING');
         this.setState({markerList: [], isLoading: true})
 
         axios.get(config.base_url + 'groups')
@@ -84,6 +85,7 @@ class MapPage extends Component {
 
     clearTemp = () => {
         // this.state.newMarkers = [];
+        console.log('CLEARING');
         this.setState({newMarkers: []});
     }
 
@@ -102,6 +104,7 @@ class MapPage extends Component {
     }
 
     handleNewGroup = (e) => {
+        // this.updateData();
         console.log(e.nativeEvent);
         this.setState({
             newMarkers:

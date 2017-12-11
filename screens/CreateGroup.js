@@ -44,8 +44,8 @@ class CreateGroup extends Component {
                 console.log(e);
             })
 
-            this.props.navigation.state.params.updateData;
-            this.props.navigation.state.params.clearTemp;
+            this.props.navigation.state.params.updateData();
+            this.props.navigation.state.params.clearTemp();
             this.props.navigation.goBack(null);
     }
 
