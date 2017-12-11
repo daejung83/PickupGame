@@ -1,7 +1,6 @@
 import Group from "../../schemas/Group";
 import isLoggedIn from "../../utils/isLoggedIn";
-import User from "../../schemas/User";
-
+import moment from 'moment'
 // api/groups
 export default function(route) {
     // GET /api/groups
@@ -34,8 +33,9 @@ export default function(route) {
         const lon = parseFloat(req.query.lon);
         const lat = parseFloat(req.query.lat);
         const maxSize = parseInt(req.query.maxSize);
-        const start = Date.parse(req.query.start);
-        const end = Date.parse(req.query.end);
+        const start = moment(req.query.start).toDate();
+        const end = moment(req.query.end).toDate();
+        console.log(`${start} ${end}`);
 
         const group = await req.user.createGroup(name, sport, lon, lat, maxSize, start, end);
         res.status(201).json(group)
