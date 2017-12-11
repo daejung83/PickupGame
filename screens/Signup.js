@@ -57,7 +57,7 @@ class Signup extends Component {
                 .then((req) => {
                     console.log(req.data);
                     if(req.status === 201){
-                        this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.props.navigation.state.params.cord});
+                        this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.props.navigation.state.params.cord, data: req.data});
                     } else {
                         console.log('not status 200');
                     }

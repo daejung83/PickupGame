@@ -40,9 +40,9 @@ class Home extends Component {
         return (
             <ScrollView>
                 <Card
-                    title={'NAME HERE'}
+                    title={this.props.navigation.state.params.data.name}
                     image={{uri: 'http://bized.aacsb.edu/-/media/bized2017/images/issue-article-images/2017/november/small-nudges.ashx?h=355&la=en&mw=1000&w=715&hash=021EFA91193448B99E5DE5A114DD37A33A1F6537'}}
-                    featuredTitle={'featured Title'}
+                    featuredTitle={'temp'}
                     featuredSubtitle={'featured Sub Title'}
                 >
                     <Text>Something Something</Text>
