@@ -1,6 +1,7 @@
 import Group from "../../schemas/Group";
 import isLoggedIn from "../../utils/isLoggedIn";
 import moment from 'moment'
+import User from "../../schemas/User";
 // api/groups
 export default function(route) {
     // GET /api/groups
@@ -39,6 +40,9 @@ export default function(route) {
         const end = moment(req.body.end).toDate();
 
         const group = await req.user.createGroup(name, sport, lon, lat, maxSize, start, end);
+        console.log(`${group._id}`);
+        await User.findByIdAndUpdate(req.user._id, {$push: {groups: group._id}});
+        req.logIn(req.user, (err) => {});
         res.status(201).json(group)
     });
 };
