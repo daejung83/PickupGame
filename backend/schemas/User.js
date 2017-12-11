@@ -38,17 +38,17 @@ const userSchema = new Schema({
         type: String,
         enum: sportList,
         required: true
-    },
-    updated: {
-        type: Date,
-        default: Date.now,
     }
 }, { timestamps: true });
 
 // Validate the user and if valid, return the user's id in the database as a string
 userSchema.statics.validate = async function(email, password) {
     const user = await this.findOne({email: email.toLowerCase()}, '+hash').exec();
-    if (user && await bcrypt.compare(password, user.hash)) return user;
+    if (user && await bcrypt.compare(password, user.hash)) {
+        const userObj = user.toObject();
+        delete userObj.hash;
+        return userObj;
+    }
     else return null;
 };
 
@@ -66,7 +66,9 @@ userSchema.statics.register = async function(email, password, name, preferredSpo
         preferredSport: preferredSport
     });
     await user.save();
-    return user;
+    const userObj = user.toObject();
+    delete userObj.hash;
+    return userObj;
 };
 
 userSchema.methods.createGroup = async function (name, sport, lon, lat, maxSize, start, end) {

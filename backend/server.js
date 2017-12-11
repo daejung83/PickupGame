@@ -31,10 +31,11 @@ app.use(passport.session());
 passport.use('local-signup', new Strategy({
     usernameField : 'email',
     passwordField : 'password',
-}, async (email, password, done) => {
+    passReqToCallback: true
+}, async (req, email, password, done) => {
     let user;
     try {
-        user = await User.register(email, password);
+        user = await User.register(email, password, req.body.name, req.body.preferredSport);
     } catch (err) {
         if (err.statusCode === 403) return done(null, false, {message: err.message});
         else return done(err);
@@ -46,6 +47,7 @@ passport.use('local-signin', new Strategy(
     {usernameField: 'email', passwordField: 'password'},
     async (email, password, done) => {
         const user = await User.validate(email, password);
+        console.log(user.hash);
         if (user) done(null, user);
         else done(null, false, { message: 'Incorrect email or password.' });
     }
@@ -53,7 +55,7 @@ passport.use('local-signin', new Strategy(
 
 // Serialize and Deserialize User
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
@@ -65,6 +67,11 @@ passport.deserializeUser((id, done) => {
 // Register the router to /api
 app.use(morgan('combined'));
 app.use('/api', routers(new Router(), passport));
+
+process.on('unhandledRejection', (reason, p) => {
+    console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    // application specific logging, throwing an error, or other logic here
+});
 
 // Launch the server on PORT
 const port = process.env.PORT || 3000;
