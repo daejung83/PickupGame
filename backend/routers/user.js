@@ -37,7 +37,12 @@ export default function (route) {
             newNumRate = user.numberRated + 1;
             user.rating = ((user.rating * user.numberRated) + req.body.rating)/newNumRate;
             user.numberRated = newNumRate;
-
         }
+        req.logIn(user, function(error) {
+            if(error){
+                return res.status(500).json({message: "Internal error."})
+            }
+        });
+        return res.status(200).json({message: "User rated.", data: user});
     });
 }
