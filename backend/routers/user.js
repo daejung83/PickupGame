@@ -30,7 +30,7 @@ export default function (route) {
     // We used req.body but not sure if req.query would be needed.
     route.post(isLoggedIn, async (req, res) => {
         const user = await User.findById(req.query.id).exec();
-        if (user._id === req.user._id) return res.status(401).json({message: "Can't rate yourself."});
+        if (user._id.equals(req.user._id)) return res.status(401).json({message: "Can't rate yourself."});
         if(req.body.rating){
             if(req.body.rating < 1 || req.body.rating > 5){
                 return res.status(400).json({message: "Invalid rating."})
