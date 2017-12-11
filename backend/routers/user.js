@@ -16,7 +16,7 @@ export default function (route) {
     // PUT /api/user
     route.put(isLoggedIn, async (req, res) => {
         const user = await User.findById(req.user._id).exec();
-
+        // TODO: access checking
         if(req.body.name) user.name = req.body.name;
         if(req.body.email) user.email = req.body.email;
         if(req.body.preferredSport) user.preferredSport = req.body.preferredSport;
