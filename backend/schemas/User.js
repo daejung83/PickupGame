@@ -72,7 +72,7 @@ userSchema.statics.register = async function(email, password, name, preferredSpo
 };
 
 userSchema.methods.createGroup = async function (name, sport, lon, lat, maxSize, start, end) {
-    const group = new Group({
+    let group = new Group({
         name: name,
         sport: sport,
         longitude: lon,
@@ -82,7 +82,7 @@ userSchema.methods.createGroup = async function (name, sport, lon, lat, maxSize,
         startTime: start,
         endTime: end
     });
-    await group.save();
+    group = await group.save();
     return group;
 };
 
