@@ -10,6 +10,8 @@ import Home from '../screens/Home';
 import MapPage from '../screens/MapPage';
 import FacebookLogin from '../screens/FacebookLogin';
 import Setting from '../screens/Setting';
+import CreateGroup from '../screens/CreateGroup';
+import GroupView from '../screens/GroupView';
 
 export const TabStack = TabNavigator({
     Home: {
@@ -66,6 +68,12 @@ export const LoginStack = StackNavigator({
     TabStack: {
         screen: TabStack,
     },
+    CreateGroup: {
+        screen: CreateGroup,
+    },
+    GroupView: {
+        screen: GroupView,
+    }
 },{
     headerMode: 'none',
 })

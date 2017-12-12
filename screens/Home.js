@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
 import { Button, List, ListItem, Card } from 'react-native-elements';
+
+import axios from 'axios';
+import config from '../config/config';
 
 const list = [
     {
@@ -34,15 +37,35 @@ const list = [
     },
 ]
 
+let user,
+    newNav;
+
 class Home extends Component {
+    constructor() {
+        super();
+        this.state = {
+            grouplist: [],
+        }
+    }
+
+    componentWillMount () {
+        user = this.props.navigation.state.params.data;
+        newNav = this.props.navigation.navigate;
+        axios.get(config.base_url + 'groups')
+            .then((res) => {
+                this.setState({ grouplist: res.data });
+            }).catch((e) => {
+                console.log(e);
+            })
+    }
 
     render() {
         return (
             <ScrollView>
                 <Card
-                    title={'NAME HERE'}
-                    image={{uri: 'http://bized.aacsb.edu/-/media/bized2017/images/issue-article-images/2017/november/small-nudges.ashx?h=355&la=en&mw=1000&w=715&hash=021EFA91193448B99E5DE5A114DD37A33A1F6537'}}
-                    featuredTitle={'featured Title'}
+                    title={this.props.navigation.state.params.data.name}
+                    image={{ uri: 'http://bized.aacsb.edu/-/media/bized2017/images/issue-article-images/2017/november/small-nudges.ashx?h=355&la=en&mw=1000&w=715&hash=021EFA91193448B99E5DE5A114DD37A33A1F6537' }}
+                    featuredTitle={'temp'}
                     featuredSubtitle={'featured Sub Title'}
                 >
                     <Text>Something Something</Text>
@@ -50,16 +73,20 @@ class Home extends Component {
                 </Card>
 
                 <List>
-                    {
-                        list.map((l, i) => (
+                    {this.state.grouplist.map((dynamicData, key) =>
                             <ListItem
-                                key={i}
-                                rightTitle={'3/4'}
-                                title={l.name}
-                                subtitle={l.sport}
+                                key={key}
+                                rightTitle={dynamicData.currentSize + "/" + dynamicData.maxSize}
+                                title={dynamicData.name}
+                                subtitle={dynamicData.sport}
+                                onPress={function(){
+                                    newNav('GroupView', {
+                                        data: dynamicData,
+                                        user: user,
+                                    })
+                                }}
                             />
-                        ))
-                    }
+                    )}
                 </List>
             </ScrollView>
         );

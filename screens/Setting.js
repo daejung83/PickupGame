@@ -19,12 +19,17 @@ class Setting extends Component {
             })
     }
 
+    handleGroup = () => {
+        
+    }
+
     render() {
         return (
             <View>
                 <Text>Setting Page</Text>
                 <ButtonGroup
                     buttons={config.sportList}
+                    onPress={this.handleGroup}
                 />
 
           
