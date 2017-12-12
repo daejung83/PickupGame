@@ -28,8 +28,8 @@ class MapPage extends Component {
     }
 
     componentWillMount = async () =>{
-        console.log(this.props.navigation.state.params.cord.latitude);
-        console.log(this.props.navigation.state.params.cord.longitude);
+        // console.log(this.props.navigation.state.params.cord.latitude);
+        // console.log(this.props.navigation.state.params.cord.longitude);
         this.state.lats = this.props.navigation.state.params.cord.latitude;
         this.state.long = this.props.navigation.state.params.cord.longitude;
         // this.state.isLoading = false;
@@ -56,15 +56,18 @@ class MapPage extends Component {
 
     addMarker = (lat, long, title, key, ele) => {
         console.log('addMarker');
-        console.log(ele);
-        const oldNav = this.props.navigation.state.params.logout;
+        // console.log(ele);
+        console.log(this.props.navigation.state.params);
+        const { logout, data } = this.props.navigation.state.params;
+        const { user } = data;
+        // const oldNav = this.props.navigation.state.params.logout;
         return (
             <MapView.Marker
                 coordinate={{latitude: lat, longitude: long}}
                 title={title}
                 key={key}
                 onPress={function(){
-                    oldNav('GroupView', {data:ele});
+                    logout('GroupView', {data:ele, user, updateData: this.updateData});
                 }}
             />
         );
@@ -101,12 +104,6 @@ class MapPage extends Component {
             coordinate: this.state.newMarkerCord,
             id: this.props.navigation.state.params.data.user._id,
         });
-    }
-
-    handleGroupView = (ele) =>{
-        console.log('pringting ele');
-        console.log(this.props);
-        this.props.navigation.state.params.logout('GroupView');
     }
 
     handleNewGroup = (e) => {
