@@ -47,7 +47,6 @@ passport.use('local-signin', new Strategy(
     {usernameField: 'email', passwordField: 'password'},
     async (email, password, done) => {
         const user = await User.validate(email, password);
-        console.log(user.hash);
         if (user) done(null, user);
         else done(null, false, { message: 'Incorrect email or password.' });
     }
