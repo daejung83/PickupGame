@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, View, Text } from 'react-native';
-import { Button, ButtonGroup, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { Button, ButtonGroup, FormLabel, FormInput, FormValidationMessage, Icon } from 'react-native-elements';
 import axios from 'axios';
+import isodate from '@segment/isodate';
+import DatePicker from 'react-native-datepicker';
 
 import config from '../config/config';
 
@@ -18,7 +20,19 @@ class CreateGroup extends Component {
             name: '',
             maxSize: 0,
             sportListIndex: 0,
+            minDay: '',
+            maxDay: '',
+            startDate: '',
+            startTime: '',
+            endDate: '',
+            endTime: '',
         }
+    }
+
+    componentWillMount(){
+        let today = new Date();
+        this.state.minDay = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+        this.state.maxDay = (today.getFullYear() + 1) + '-' + today.getMonth() + '-' + today.getDate();
     }
 
     handleCancel = () => {
@@ -30,8 +44,8 @@ class CreateGroup extends Component {
         await axios.post(config.base_url + 'groups', {
             name: this.state.name,
             maxSize: this.state.maxSize,
-            start: '2017-12-12T04:06:07.000Z',
-            end: '2017-12-12T05:06:07.000Z',
+            start: this.state.startDate + 'T' + this.state.startTime + ':07.000Z',
+            end: this.state.endDate + 'T' + this.state.endTime + ':07.000Z',
             lat: this.props.navigation.state.params.coordinate.latitude,
             lon: this.props.navigation.state.params.coordinate.longitude,
             sport: config.sportList[this.state.sportListIndex],
@@ -76,6 +90,88 @@ class CreateGroup extends Component {
                     placeholder={' Max Size'}
                 />
                 <FormValidationMessage>{this.state.errorMaxSize}</FormValidationMessage>
+                <Text>Start Date and Time</Text>
+                <DatePicker
+                    mode={'date'}
+                    style={{width: 400}}
+                    customStyles={{
+                        dateInput: {
+                            marginLeft: 15,
+                        }
+                    }}
+                    cancelBtnText={'Cancel'}
+                    confirmBtnText={'Confirm'}
+                    date={this.state.startDate}
+                    onDateChange={(startDate) => {this.setState({startDate})}}
+                    iconComponent={
+                        <Icon
+                            type={'font-awesome'}
+                            name={'calendar'}
+                            iconStyle={{margin: 9}}
+                        />
+                    }
+                />
+                <DatePicker
+                    mode={'time'}
+                    style={{width: 400}}
+                    customStyles={{
+                        dateInput: {
+                            marginLeft: 15,
+                        }
+                    }}
+                    cancelBtnText={'Cancel'}
+                    confirmBtnText={'Confirm'}
+                    date={this.state.startTime}
+                    onDateChange={(startTime) => {this.setState({startTime})}}
+                    iconComponent={
+                        <Icon
+                            type={'font-awesome'}
+                            name={'clock-o'}
+                            iconStyle={{margin: 10}}
+                        />
+                    }
+                />
+                <Text>End Date and Time</Text>
+                <DatePicker
+                    mode={'date'}
+                    style={{width: 400}}
+                    customStyles={{
+                        dateInput: {
+                            marginLeft: 15,
+                        }
+                    }}
+                    cancelBtnText={'Cancel'}
+                    confirmBtnText={'Confirm'}
+                    date={this.state.endDate}
+                    onDateChange={(endDate) => {this.setState({endDate})}}
+                    iconComponent={
+                        <Icon
+                            type={'font-awesome'}
+                            name={'calendar'}
+                            iconStyle={{margin: 9}}
+                        />
+                    }
+                />
+                <DatePicker
+                    mode={'time'}
+                    style={{width: 400}}
+                    customStyles={{
+                        dateInput: {
+                            marginLeft: 15,
+                        }
+                    }}
+                    cancelBtnText={'Cancel'}
+                    confirmBtnText={'Confirm'}
+                    date={this.state.endTime}
+                    onDateChange={(endTime) => {this.setState({endTime})}}
+                    iconComponent={
+                        <Icon
+                            type={'font-awesome'}
+                            name={'clock-o'}
+                            iconStyle={{margin: 10}}
+                        />
+                    }
+                />
                 <Button
                     title={'Create'}
                     onPress={this.handleCreate}

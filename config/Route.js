@@ -12,6 +12,7 @@ import FacebookLogin from '../screens/FacebookLogin';
 import Setting from '../screens/Setting';
 import CreateGroup from '../screens/CreateGroup';
 import GroupView from '../screens/GroupView';
+import ListView from '../screens/ListView';
 
 export const TabStack = TabNavigator({
     Home: {
@@ -36,6 +37,20 @@ export const TabStack = TabNavigator({
                     name={'map'}
                     color={tintColor}
                 />);
+            }
+        }
+    },
+    List: {
+        screen: ListView,
+        navigationOptions: {
+            tabBarIcon: ({tintColor}) => {
+                return (
+                    <Icon
+                        type={'font-awesome'}
+                        name={'list'}
+                        color={tintColor}
+                    />
+                );
             }
         }
     },

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
-import { Button, List, ListItem, Card } from 'react-native-elements';
-
 import axios from 'axios';
+import { List, ListItem } from 'react-native-elements';
+
 import config from '../config/config';
 
 let user,
     newNav;
 
-class Home extends Component {
+class ListView extends Component {
+
     constructor() {
         super();
         this.state = {
@@ -32,17 +33,7 @@ class Home extends Component {
     render() {
         return (
             <ScrollView>
-                <Card
-                    title={user.name}
-                    image={{ uri: 'http://bized.aacsb.edu/-/media/bized2017/images/issue-article-images/2017/november/small-nudges.ashx?h=355&la=en&mw=1000&w=715&hash=021EFA91193448B99E5DE5A114DD37A33A1F6537' }}
-                    featuredTitle={user.preferredSport}
-                    //featuredSubtitle={<Text>{user.rating}</Text>}
-                >
-                    <Text>Rating: {user.rating}</Text>
-                    <Text>email: {user.email}</Text>
-                    <Text>additional data....</Text>
-                </Card>
-
+                <Text>ListView</Text>
                 <List>
                     {this.state.grouplist.map((dynamicData, key) =>
                             <ListItem
@@ -64,8 +55,8 @@ class Home extends Component {
     }
 }
 
-Home.propTypes = {
+ListView.propTypes = {
 
 };
 
-export default Home;
+export default ListView;

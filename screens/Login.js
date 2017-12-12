@@ -6,8 +6,8 @@ import Geolocation from 'geolocation';
 import axios from 'axios';
 import config from '../config/config';
 
-const color1 = '#254E70';
-const color2 = '#AEF3E7';
+const color1 = config.color1;
+const color2 = config.color2;
 
 class Login extends Component {
 
