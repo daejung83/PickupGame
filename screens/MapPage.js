@@ -39,7 +39,7 @@ class MapPage extends Component {
                 // console.log(res.data);
                 this.setState({markers: res.data});
                 res.data.map((ele, i) => {
-                    this.state.markerList.push(this.addMarker(ele.latitude, ele.longitude, ele.name, i, this.handleGroupView));
+                    this.state.markerList.push(this.addMarker(ele.latitude, ele.longitude, ele.name, i, ele));
                 })
                 // console.log(markerList);
             }).catch((e) => {
@@ -54,19 +54,23 @@ class MapPage extends Component {
         
     }
 
-    addMarker = (lat, long, title, key, callback) => {
+    addMarker = (lat, long, title, key, ele) => {
+        console.log('addMarker');
+        console.log(ele);
+        const oldNav = this.props.navigation.state.params.logout;
         return (
             <MapView.Marker
                 coordinate={{latitude: lat, longitude: long}}
                 title={title}
                 key={key}
-                onPress={callback}
+                onPress={function(){
+                    oldNav('GroupView', {data:ele});
+                }}
             />
         );
     }
 
     updateData = () => {
-        console.log('UPDATING');
         this.setState({markerList: [], isLoading: true})
 
         axios.get(config.base_url + 'groups')
@@ -74,7 +78,8 @@ class MapPage extends Component {
             // console.log(res.data);
             this.setState({markers: res.data});
             res.data.map((ele, i) => {
-                this.state.markerList.push(this.addMarker(ele.latitude, ele.longitude, ele.name, i, this.handleGroupView));
+                this.state.markerList.push(this.addMarker(ele.latitude, ele.longitude, ele.name, i, ele));
+                //lets try this later
             })
             this.setState({isLoading: false})
             // console.log(markerList);
@@ -85,7 +90,6 @@ class MapPage extends Component {
 
     clearTemp = () => {
         // this.state.newMarkers = [];
-        console.log('CLEARING');
         this.setState({newMarkers: []});
     }
 
@@ -99,7 +103,9 @@ class MapPage extends Component {
         });
     }
 
-    handleGroupView = () => {
+    handleGroupView = (ele) =>{
+        console.log('pringting ele');
+        console.log(this.props);
         this.props.navigation.state.params.logout('GroupView');
     }
 

@@ -5,6 +5,19 @@ import { Button } from 'react-native-elements';
 
 class GroupView extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state ={
+            data:this.props.data
+        }
+    }
+
+    componentDidMount(){
+        // console.log(this.state);
+        console.log(this.props.navigation.state.params);
+    }
+
     handleCancel = () => {
         this.props.navigation.goBack(null);
     }
