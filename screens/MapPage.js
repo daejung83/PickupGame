@@ -55,9 +55,9 @@ class MapPage extends Component {
     }
 
     addMarker = (lat, long, title, key, ele) => {
-        console.log('addMarker');
+        // console.log('addMarker');
         // console.log(ele);
-        console.log(this.props.navigation.state.params);
+        // console.log(this.props.navigation.state.params);
         const { logout, data } = this.props.navigation.state.params;
         const { user } = data;
         // const oldNav = this.props.navigation.state.params.logout;
@@ -66,6 +66,7 @@ class MapPage extends Component {
                 coordinate={{latitude: lat, longitude: long}}
                 title={title}
                 key={key}
+                pinColor={'blue'}
                 onPress={function(){
                     logout('GroupView', {data:ele, user, updateData: this.updateData});
                 }}
@@ -108,13 +109,14 @@ class MapPage extends Component {
 
     handleNewGroup = (e) => {
         // this.updateData();
-        console.log(e.nativeEvent);
+        // console.log(e.nativeEvent);
         this.setState({
             newMarkers:
                 <MapView.Marker
                     draggable
                     coordinate={e.nativeEvent.coordinate}
                     onPress={this.CreateGroup}
+                    pinColor={'green'}
                 />,
             newMarkerCord: e.nativeEvent.coordinate,
         })
