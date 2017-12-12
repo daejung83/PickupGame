@@ -38,7 +38,7 @@ passport.use('local-signup', new Strategy({
         user = await User.register(email, password, req.body.name, req.body.preferredSport);
     } catch (err) {
         if (err.statusCode === 403) return done(null, false, {message: err.message});
-        else return done(null, false, err);
+        else return done(err);
     }
     return done(null, user);
 }));
