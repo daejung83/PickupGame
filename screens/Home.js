@@ -45,16 +45,21 @@ class Home extends Component {
             promises.push(axios.get(config.base_url + 'groups/' + user.groups[i]))
         }
 
+        // await Promise.all(promises)
+        // .then(axios.spread((...args) => {
+        //     for(let i = 0; i < args.length; i++){
+        //         console.log(args[i].data);
+        //         this.state.grouplist.push(args[i].data);
+        //     }
+        //     this.state.isLoading = false;
+        //     this.setState({isLoading: false});
+        // }));
         Promise.all(promises)
-        .then(axios.spread((...args) => {
-            for(let i = 0; i < args.length; i++){
-                console.log(args[i].data);
-                this.state.grouplist.push(args[i].data);
-            }
+        .then((results) => {
+            this.state.grouplist.push(...(results.map(arg => arg.data)));
             this.state.isLoading = false;
             this.setState({isLoading: false});
-        }))
-        
+        })
     }
 
     render() {
