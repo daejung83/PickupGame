@@ -53,19 +53,20 @@ class CreateGroup extends Component {
         };
         
         await axios.post(config.base_url + 'groups', body)
-            .then((res) => {
+            .then(async (res) => {
                 console.log(this.props.navigation.state.params.updateData);
                 console.log(res.data);
+                this.props.navigation.state.params.clearTemp();
+                this.props.navigation.state.params.updateData();
+                await this.props.navigation.state.params.updateHomeList();
+                this.props.navigation.state.params.updateListView();
+                this.props.navigation.goBack(null);
                 
             }).catch((e) => {
                 console.log(JSON.stringify(e));
             })
 
-            this.props.navigation.state.params.clearTemp();
-            this.props.navigation.state.params.updateData();
-            this.props.navigation.state.params.updateHomeList();
-            this.props.navigation.state.params.updateListView();
-            this.props.navigation.goBack(null);
+            
     }
 
     handleGroup = (sportListIndex) => {
@@ -75,12 +76,11 @@ class CreateGroup extends Component {
     render() {
         return (
             <ScrollView>
-                <Text>{this.state.startDate} {this.state.startTime} {this.state.endDate} {this.state.endTime}</Text>
-                <Text>CreateGroup Page</Text>
                 <ButtonGroup
                     buttons={config.sportList}
                     onPress={this.handleGroup}
                     selectedIndex={this.state.sportListIndex}
+                    textStyle={{fontSize: 8}}
                 />
                 <FormLabel>Name</FormLabel>
                 <FormInput 
