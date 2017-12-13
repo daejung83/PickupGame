@@ -5,6 +5,7 @@ import { Button, ButtonGroup, FormLabel, FormInput, FormValidationMessage, Icon 
 import axios from 'axios';
 import isodate from '@segment/isodate';
 import DatePicker from 'react-native-datepicker';
+import moment from 'moment'
 
 import config from '../config/config';
 
@@ -22,10 +23,10 @@ class CreateGroup extends Component {
             sportListIndex: 0,
             minDay: '',
             maxDay: '',
-            startDate: '',
-            startTime: '',
-            endDate: '',
-            endTime: '',
+            startDate: moment().format('YYYY-MM-DD'),
+            startTime: moment().format('HH:mm'),
+            endDate: moment().add(1, 'hours').format('YYYY-MM-DD'),
+            endTime: moment().add(1, 'hours').format('HH:mm'),
         }
     }
 
@@ -41,21 +42,23 @@ class CreateGroup extends Component {
 
     handleCreate = async () => {
          // name, sport, lon, lat, maxSize, start, end
-        await axios.post(config.base_url + 'groups', {
+         const body = {
             name: this.state.name,
             maxSize: this.state.maxSize,
-            start: this.state.startDate + 'T' + this.state.startTime + ':07.000Z',
-            end: this.state.endDate + 'T' + this.state.endTime + ':07.000Z',
+            start: this.state.startDate + 'T' + this.state.startTime + ':00.000Z',
+            end: this.state.endDate + 'T' + this.state.endTime + ':00.000Z',
             lat: this.props.navigation.state.params.coordinate.latitude,
             lon: this.props.navigation.state.params.coordinate.longitude,
             sport: config.sportList[this.state.sportListIndex],
-        })
+        };
+        console.log(JSON.stringify(body));
+        axios.post(config.base_url + 'groups', body)
             .then((res) => {
                 console.log(this.props.navigation.state.params.updateData);
                 console.log(res.data);
                 
             }).catch((e) => {
-                console.log(e);
+                console.log(JSON.stringify(e));
             })
 
             this.props.navigation.state.params.clearTemp();
@@ -72,6 +75,7 @@ class CreateGroup extends Component {
     render() {
         return (
             <ScrollView>
+                <Text>{this.state.startDate} {this.state.startTime} {this.state.endDate} {this.state.endTime}</Text>
                 <Text>CreateGroup Page</Text>
                 <ButtonGroup
                     buttons={config.sportList}
