@@ -50,7 +50,6 @@ class MapPage extends Component {
             lats: this.props.navigation.state.params.cord.latitude,
             long: this.props.navigation.state.params.cord.longitude,
         })
-        
         // this.state.isLoading = true;
         
     }
@@ -99,8 +98,12 @@ class MapPage extends Component {
     }
 
     CreateGroup = (e) => {
+        console.log('inside CreateGroup');
+        console.log(this.props.navigation.state);
         // console.log('checking data: ', this.props.navigation.state.params.data);
         this.props.navigation.state.params.logout('CreateGroup', {
+            updateListView: this.props.navigation.state.params.updateHomeList,
+            updateHomeList: this.props.navigation.state.params.updateListView,
             updateData: this.updateData,
             clearTemp: this.clearTemp,
             coordinate: this.state.newMarkerCord,

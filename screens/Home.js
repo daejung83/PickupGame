@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes, { func } from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
 import { Button, List, ListItem, Card } from 'react-native-elements';
+import { NavigationAction, NavigationActions } from 'react-navigation';
 
 import axios from 'axios';
 import config from '../config/config';
@@ -19,25 +20,40 @@ class Home extends Component {
     }
 
     componentWillMount () {
+        
+        console.log(user);
+        let action = NavigationActions.setParams({
+            params: {
+                updateHomeList: this.updateHomeList,
+            },
+            key: 'Map',
+        });
+        this.props.navigation.dispatch(action);
+
+        this.updateHomeList();
+    }
+
+    updateHomeList = () => {
+        this.state.grouplist = [];
         let promises = [];
         user = this.props.navigation.state.params.data.user;
         newNav = this.props.navigation.navigate;
-        console.log(user);
 
         this.state.isLoading = true;
+        this.setState({isLoading: true});
         for (let i = 0; i < user.groups.length; i++){
             promises.push(axios.get(config.base_url + 'groups/' + user.groups[i]))
         }
 
         axios.all(promises)
-            .then(axios.spread((...args) => {
-                for(let i = 0; i < args.length; i++){
-                    console.log(args[i].data);
-                    this.state.grouplist.push(args[i].data);
-                }
-                this.state.isLoading = false;
-                this.setState({isLoading: false});
-            }))
+        .then(axios.spread((...args) => {
+            for(let i = 0; i < args.length; i++){
+                console.log(args[i].data);
+                this.state.grouplist.push(args[i].data);
+            }
+            this.state.isLoading = false;
+            this.setState({isLoading: false});
+        }))
     }
 
     render() {
