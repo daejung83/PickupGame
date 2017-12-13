@@ -41,6 +41,7 @@ class Setting extends Component {
                     buttons={config.sportList}
                     onPress={(sportIndex) => this.setState({sportIndex})}
                     selectedIndex={this.state.sportIndex}
+                    textStyle={{fontSize:10}}
                 />
 
                 <FormLabel>Update Email</FormLabel>
