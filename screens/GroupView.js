@@ -4,6 +4,7 @@ import { View, ScrollView, Text } from 'react-native';
 import { Button, Card, Divider } from 'react-native-elements';
 import axios from 'axios';
 import isodate from '@segment/isodate';
+import MapView from 'react-native-maps';
 
 import config from '../config/config';
 import * as dateUtil from '../utility/date';
@@ -22,7 +23,8 @@ class GroupView extends Component {
 
     componentWillMount () {
         // console.log(this.state);
-        console.log(this.props.navigation.state.params.data);
+        console.log('GROUPVIEW');
+        console.log(this.props.navigation.state.params.data.latitude);
         this.setState({
             data: this.props.navigation.state.params.data,
             user: this.props.navigation.state.params.user,
@@ -54,7 +56,7 @@ class GroupView extends Component {
 
     render() {
         return (
-            <ScrollView>
+            <View style={{flex:1}}>
                 <Card
                     title={this.state.data.name}
                     image={{uri: config.image}}
@@ -74,7 +76,22 @@ class GroupView extends Component {
                     title={'Cancel'}
                     onPress={this.handleCancel}
                 />
-            </ScrollView>
+                <MapView
+                    showsUserLocation={true}
+                    style={{flex: 1, alignSelf: 'stretch'}}
+                    initialRegion={{
+                        latitude: this.props.navigation.state.params.data.latitude,
+                        longitude: this.props.navigation.state.params.data.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    // ref={(c) => this._map = c}
+                >
+                    <MapView.Marker
+                        coordinate={{latitude: this.state.data.latitude, longitude: this.state.data.longitude}}
+                    />
+                </MapView>
+            </View>
         );
     }
 }

@@ -76,8 +76,6 @@ class CreateGroup extends Component {
     render() {
         return (
             <ScrollView>
-                <Text>{this.state.startDate} {this.state.startTime} {this.state.endDate} {this.state.endTime}</Text>
-                <Text>CreateGroup Page</Text>
                 <ButtonGroup
                     buttons={config.sportList}
                     onPress={this.handleGroup}
