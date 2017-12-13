@@ -51,7 +51,7 @@ class Setting extends Component {
                 <ButtonGroup
                     buttons={config.sportList}
                     onPress={this.handleGroup}
-                    textStyle={{fontSize: 10}}
+                    textStyle={{fontSize: 8}}
                 />
 
                 <FormLabel>Update Email</FormLabel>
