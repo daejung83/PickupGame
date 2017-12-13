@@ -41,8 +41,14 @@ class CreateGroup extends Component {
     }
 
     handleCreate = async () => {
-         // name, sport, lon, lat, maxSize, start, end
-         const body = {
+        // name, sport, lon, lat, maxSize, start, end
+        const clearTemp = this.props.navigation.state.params.clearTemp;
+        const updateData = this.props.navigation.state.params.updateData;
+        const updateHomeList = this.props.navigation.state.params.updateHomeList;
+        const updateListView = this.props.navigation.state.params.updateListView;
+        const goBack = this.props.navigation.goBack;
+        // await axios.post(config.base_url + 'groups', {
+        let body ={
             name: this.state.name,
             maxSize: this.state.maxSize,
             start: this.state.startDate + 'T' + this.state.startTime + ':00.000Z',
@@ -56,16 +62,20 @@ class CreateGroup extends Component {
             .then((res) => {
                 console.log(this.props.navigation.state.params.updateData);
                 console.log(res.data);
-                
+                clearTemp();
+                updateData();
+                updateHomeList();
+                updateListView();
+                goBack(null);
             }).catch((e) => {
                 console.log(JSON.stringify(e));
             })
 
-            this.props.navigation.state.params.clearTemp();
-            this.props.navigation.state.params.updateData();
-            this.props.navigation.state.params.updateHomeList();
-            this.props.navigation.state.params.updateListView();
-            this.props.navigation.goBack(null);
+            // this.props.navigation.state.params.clearTemp();
+            // this.props.navigation.state.params.updateData();
+            // this.props.navigation.state.params.updateHomeList();
+            // this.props.navigation.state.params.updateListView();
+            // this.props.navigation.goBack(null);
     }
 
     handleGroup = (sportListIndex) => {

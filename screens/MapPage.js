@@ -102,8 +102,8 @@ class MapPage extends Component {
         console.log(this.props.navigation.state);
         // console.log('checking data: ', this.props.navigation.state.params.data);
         this.props.navigation.state.params.logout('CreateGroup', {
-            updateListView: this.props.navigation.state.params.updateHomeList,
-            updateHomeList: this.props.navigation.state.params.updateListView,
+            updateListView: this.props.navigation.state.params.updateListView,
+            updateHomeList: this.props.navigation.state.params.updateHomeList,
             updateData: this.updateData,
             clearTemp: this.clearTemp,
             coordinate: this.state.newMarkerCord,
