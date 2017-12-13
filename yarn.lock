@@ -4595,6 +4595,12 @@ react-native-elements@^0.18.2:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
+react-native-floating-action@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.4.0.tgz#861a5a370e99f2d703a62ee16527d2ea5bab675d"
+  dependencies:
+    lodash "^4.17.4"
+
 react-native-gesture-handler@1.0.0-alpha.28:
   version "1.0.0-alpha.28"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0-alpha.28.tgz#198c776b7b7d299f9b03017f666a9829f996e30d"

@@ -64,7 +64,7 @@ class Signup extends Component {
                         this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.props.navigation.state.params.cord, data: req.data});
                     } else {
                         console.log(req.data);
-                        if (req.data.message) this.setState({error: req.data.message});
+                        if (req.data.message) this.setState({emailError: req.data.message});
                         else this.setState({emailError: 'Unable to register!'})
                     }
                 })
