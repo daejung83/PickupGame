@@ -41,18 +41,14 @@ class CreateGroup extends Component {
     }
 
     handleCreate = async () => {
-<<<<<<< HEAD
         // name, sport, lon, lat, maxSize, start, end
         const clearTemp = this.props.navigation.state.params.clearTemp;
         const updateData = this.props.navigation.state.params.updateData;
         const updateHomeList = this.props.navigation.state.params.updateHomeList;
         const updateListView = this.props.navigation.state.params.updateListView;
         const goBack = this.props.navigation.goBack;
-        await axios.post(config.base_url + 'groups', {
-=======
-         // name, sport, lon, lat, maxSize, start, end
-         const body = {
->>>>>>> acbddc816fc849d9e8994578b9334a5757c412e5
+        // await axios.post(config.base_url + 'groups', {
+        let body ={
             name: this.state.name,
             maxSize: this.state.maxSize,
             start: this.state.startDate + 'T' + this.state.startTime + ':00.000Z',
