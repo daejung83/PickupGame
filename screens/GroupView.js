@@ -66,7 +66,7 @@ class GroupView extends Component {
                 </Card>
 
                 <Button
-                    title={'Join Group'}
+                    title={'Join Game'}
                     onPress={this.handleJoin}
                 />
                 <Divider/>

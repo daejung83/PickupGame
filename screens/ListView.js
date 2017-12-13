@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
 import axios from 'axios';
 import { List, ListItem } from 'react-native-elements';
+import { NavigationAction, NavigationActions } from 'react-navigation';
 
 import config from '../config/config';
 
@@ -19,6 +20,17 @@ class ListView extends Component {
     }
 
     componentWillMount () {
+        let action = NavigationActions.setParams({
+            params: {
+                updateListView: this.updateListView,
+            },
+            key: 'Map',
+        })
+        this.props.navigation.dispatch(action);
+        this.updateListView()
+    }
+
+    updateListView = () => {
         user = this.props.navigation.state.params.data.user;
         newNav = this.props.navigation.navigate;
         console.log(user);

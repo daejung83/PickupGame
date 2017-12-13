@@ -61,8 +61,10 @@ class CreateGroup extends Component {
                 console.log(JSON.stringify(e));
             })
 
-            this.props.navigation.state.params.updateData();
             this.props.navigation.state.params.clearTemp();
+            this.props.navigation.state.params.updateData();
+            this.props.navigation.state.params.updateHomeList();
+            this.props.navigation.state.params.updateListView();
             this.props.navigation.goBack(null);
     }
 

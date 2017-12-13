@@ -13,6 +13,8 @@ import Setting from '../screens/Setting';
 import CreateGroup from '../screens/CreateGroup';
 import GroupView from '../screens/GroupView';
 import ListView from '../screens/ListView';
+import MyGroupView from '../screens/MyGroupView';
+import RatePage from '../screens/RatePage';
 
 export const TabStack = TabNavigator({
     Home: {
@@ -88,7 +90,13 @@ export const LoginStack = StackNavigator({
     },
     GroupView: {
         screen: GroupView,
-    }
+    },
+    MyGroupView: {
+        screen: MyGroupView,
+    },
+    RatePage: {
+        screen: RatePage,
+    },
 },{
     headerMode: 'none',
 })
