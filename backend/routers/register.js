@@ -9,7 +9,7 @@ export default function (route, passport) {
                 }
                 req.logIn(user, err => {
                     if (err) return next(err);
-                    else return res.status(200).json({user: user});
+                    else return res.status(201).json({user: user});
                 });
             })(req, res, next);
         }
