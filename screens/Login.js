@@ -39,7 +39,8 @@ class Login extends Component {
                     this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.state.coords, data: req.data});            
                 } else {
                     console.log('status: ' + req.status);
-                    this.setState({error: 'Incorrect Login'});
+                    if (req.data.message) this.setState({error: req.data.message});
+                    else this.setState({error: 'Incorrect Login'});
                 }
             })
             .catch((e) => {

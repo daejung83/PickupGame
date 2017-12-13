@@ -53,13 +53,19 @@ class Signup extends Component {
                 password: this.state.password1,
                 name: this.state.name,
                 preferredSport: config.sportList[this.state.preferredSportIndex],
+            }, {
+                validateStatus: function(status){
+                    return status < 500;
+                }
             })
                 .then((req) => {
                     console.log(req.data);
                     if(req.status === 201){
                         this.props.navigation.navigate('TabStack', {logout: this.props.navigation.navigate, cord: this.props.navigation.state.params.cord, data: req.data});
                     } else {
-                        console.log('not status 200');
+                        console.log(req.data);
+                        if (req.data.message) this.setState({error: req.data.message});
+                        else this.setState({emailError: 'Unable to register!'})
                     }
                 })
                 .catch((e) => {
