@@ -64,12 +64,12 @@ class Home extends Component {
                                     rightTitle={dynamicData.currentSize + "/" + dynamicData.maxSize}
                                     title={dynamicData.name}
                                     subtitle={dynamicData.sport}
-                                    // onPress={function(){
-                                    //     newNav('GroupView', {
-                                    //         data: dynamicData,
-                                    //         user: user,
-                                    //     })
-                                    // }}
+                                    onPress={function(){
+                                        newNav('MyGroupView', {
+                                            data: dynamicData,
+                                            user: user,
+                                        })
+                                    }}
                                 />
                         )}
                     </List>
