@@ -33,7 +33,7 @@ class Home extends Component {
         this.updateHomeList();
     }
 
-    updateHomeList = () => {
+    updateHomeList = async () => {
         this.state.grouplist = [];
         let promises = [];
         user = this.props.navigation.state.params.data.user;
@@ -45,7 +45,7 @@ class Home extends Component {
             promises.push(axios.get(config.base_url + 'groups/' + user.groups[i]))
         }
 
-        axios.all(promises)
+        Promise.all(promises)
         .then(axios.spread((...args) => {
             for(let i = 0; i < args.length; i++){
                 console.log(args[i].data);
