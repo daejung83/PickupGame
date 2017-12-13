@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes, { func } from 'prop-types';
-import { View, Text, ScrollView } from 'react-native';
-import { Button, List, ListItem, Card } from 'react-native-elements';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { Button, List, ListItem, Card, Icon } from 'react-native-elements';
 import { NavigationAction, NavigationActions } from 'react-navigation';
 
 import axios from 'axios';
@@ -58,7 +58,11 @@ class Home extends Component {
 
     render() {
         if(this.state.isLoading){
-            return <Text>isLoading...</Text>
+            return (
+                <View style={styles.container}>
+                    <Text>isLoading...</Text>
+                </View>
+            );
         } else {
             return (
                 <ScrollView>
@@ -66,11 +70,9 @@ class Home extends Component {
                         title={user.name}
                         image={{ uri: 'http://bized.aacsb.edu/-/media/bized2017/images/issue-article-images/2017/november/small-nudges.ashx?h=355&la=en&mw=1000&w=715&hash=021EFA91193448B99E5DE5A114DD37A33A1F6537' }}
                         featuredTitle={user.preferredSport}
-                        //featuredSubtitle={<Text>{user.rating}</Text>}
                     >
                         <Text>Rating: {user.rating}</Text>
                         <Text>email: {user.email}</Text>
-                        <Text>additional data....</Text>
                     </Card>
 
                     <List>
@@ -98,5 +100,13 @@ class Home extends Component {
 Home.propTypes = {
 
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+});
 
 export default Home;

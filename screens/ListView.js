@@ -45,7 +45,6 @@ class ListView extends Component {
     render() {
         return (
             <ScrollView>
-                <Text>ListView</Text>
                 <List>
                     {this.state.grouplist.map((dynamicData, key) =>
                             <ListItem
