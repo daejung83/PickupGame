@@ -5,6 +5,7 @@ import { Button, ButtonGroup, FormLabel, FormInput, FormValidationMessage, Icon 
 import axios from 'axios';
 import isodate from '@segment/isodate';
 import DatePicker from 'react-native-datepicker';
+import moment from 'moment'
 
 import config from '../config/config';
 
@@ -22,10 +23,10 @@ class CreateGroup extends Component {
             sportListIndex: 0,
             minDay: '',
             maxDay: '',
-            startDate: '',
-            startTime: '',
-            endDate: '',
-            endTime: '',
+            startDate: moment().format('YYYY-MM-DD'),
+            startTime: moment().format('HH:mm'),
+            endDate: moment().add(1, 'hours').format('YYYY-MM-DD'),
+            endTime: moment().add(1, 'hours').format('HH:mm'),
         }
     }
 
@@ -40,6 +41,7 @@ class CreateGroup extends Component {
     }
 
     handleCreate = async () => {
+<<<<<<< HEAD
         // name, sport, lon, lat, maxSize, start, end
         const clearTemp = this.props.navigation.state.params.clearTemp;
         const updateData = this.props.navigation.state.params.updateData;
@@ -47,14 +49,20 @@ class CreateGroup extends Component {
         const updateListView = this.props.navigation.state.params.updateListView;
         const goBack = this.props.navigation.goBack;
         await axios.post(config.base_url + 'groups', {
+=======
+         // name, sport, lon, lat, maxSize, start, end
+         const body = {
+>>>>>>> acbddc816fc849d9e8994578b9334a5757c412e5
             name: this.state.name,
             maxSize: this.state.maxSize,
-            start: this.state.startDate + 'T' + this.state.startTime + ':07.000Z',
-            end: this.state.endDate + 'T' + this.state.endTime + ':07.000Z',
+            start: this.state.startDate + 'T' + this.state.startTime + ':00.000Z',
+            end: this.state.endDate + 'T' + this.state.endTime + ':00.000Z',
             lat: this.props.navigation.state.params.coordinate.latitude,
             lon: this.props.navigation.state.params.coordinate.longitude,
             sport: config.sportList[this.state.sportListIndex],
-        })
+        };
+        console.log(JSON.stringify(body));
+        axios.post(config.base_url + 'groups', body)
             .then((res) => {
                 console.log(this.props.navigation.state.params.updateData);
                 console.log(res.data);
@@ -64,7 +72,7 @@ class CreateGroup extends Component {
                 updateListView();
                 goBack(null);
             }).catch((e) => {
-                console.log(e);
+                console.log(JSON.stringify(e));
             })
 
             // this.props.navigation.state.params.clearTemp();
@@ -81,6 +89,7 @@ class CreateGroup extends Component {
     render() {
         return (
             <ScrollView>
+                <Text>{this.state.startDate} {this.state.startTime} {this.state.endDate} {this.state.endTime}</Text>
                 <Text>CreateGroup Page</Text>
                 <ButtonGroup
                     buttons={config.sportList}
