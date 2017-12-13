@@ -54,6 +54,7 @@ class Home extends Component {
             this.state.isLoading = false;
             this.setState({isLoading: false});
         }))
+        
     }
 
     render() {

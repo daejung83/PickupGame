@@ -81,6 +81,7 @@ class CreateGroup extends Component {
                     buttons={config.sportList}
                     onPress={this.handleGroup}
                     selectedIndex={this.state.sportListIndex}
+                    textStyle={{fontSize: 8}}
                 />
                 <FormLabel>Name</FormLabel>
                 <FormInput 
