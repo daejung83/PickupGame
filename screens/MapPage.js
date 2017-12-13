@@ -7,6 +7,7 @@ import { Button, Icon } from 'react-native-elements';
 import MapView from 'react-native-maps';
 import axios from 'axios';
 import keygen from 'keygenerator';
+import { FloatingAction } from 'react-native-floating-action';
 
 import config from '../config/config';
 
@@ -139,12 +140,38 @@ class MapPage extends Component {
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         }}
+                        ref={(c) => this._map = c}
                         onLongPress={this.handleNewGroup}
                     >
                     
                         {this.state.markerList}
                         {this.state.newMarkers}
                     </MapView>
+                    <FloatingAction
+                        style={styles.actionButton}
+                        actions={[
+                            {
+                                text: 'Location',
+                                icon: require('../images/icons8-place-marker-50.png'),
+                                name: 'location',
+                                position: 1
+                            }
+                        ]}
+                        overrideWithAction={true}
+                        onPressItem = {(name) => {
+                            console.log(name);
+                            Geolocation.getCurrentPosition ((err, pos) => {
+                                if(err){
+                                    console.log(err);
+                                    return;
+                                } 
+                                
+                                console.log(pos.coords.latitude);
+                                console.log(pos.coords.longitude);
+                                this._map.animateToCoordinate(pos.coords, 100);
+                            })
+                        }}
+                    />
                 </View>
             );
         }
@@ -164,6 +191,9 @@ const styles = StyleSheet.create({
     mapView: {
         flex: 1,
         
+    },
+    actionButton: {
+
     }
 })
 
